@@ -20,7 +20,7 @@ exports.validateSession = catchAsync(
       req.headers.authorization &&
       req.headers.authorization.startsWith('Bearer')
     ) {
-      // Bearer token123.split(' ') -> [Bearer, token123]
+      // Bearer token123.split(' ') -> [Bearer token123]
       token = req.headers.authorization.split(' ')[1];
     }
 
@@ -37,7 +37,7 @@ exports.validateSession = catchAsync(
     // Validate that the id the token contains belongs to a valid user
     // SELECT id, email FROM users;
     const user = await User.findOne({
-      where: { id: decodedToken.id, status: 'active' },
+      where: { id: decodedToken.id },
       attributes: {
         exclude: ['password']
       }
@@ -46,8 +46,6 @@ exports.validateSession = catchAsync(
     if (!user) {
       return next(new AppError(401, 'Invalid session'));
     }
-
-    console.log(user);
 
     // Grant access
     next();

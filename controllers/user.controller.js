@@ -17,10 +17,6 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
     where: { status: 'active' }
   });
 
-  if (users.length === 0) {
-    return next(new AppError(404, 'There are not users until'));
-  }
-
   res.status(201).json({
     status: 'success',
     data: {
@@ -34,10 +30,6 @@ exports.getUserById = catchAsync(async (req, res, next) => {
   const user = await User.findOne({
     where: { id: id, status: 'active' }
   });
-
-  if (!user) {
-    return next(new AppError(404, 'User not found'));
-  }
 
   res.status(200).json({
     status: 'success',
@@ -98,10 +90,6 @@ exports.updateUserPatch = catchAsync(async (req, res, next) => {
     where: { id: id, status: 'active' }
   });
 
-  if (!user) {
-    return next(new AppError(404, 'Cant update user, invalid ID'));
-  }
-
   await user.update({ ...data }); // .update({ title, author })
 
   res.status(204).json({ status: 'success' });
@@ -113,10 +101,6 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
   const user = await User.findOne({
     where: { id: id, status: 'active' }
   });
-
-  if (!user) {
-    return next(new AppError(404, 'Cant delete user, invalid ID'));
-  }
 
   // Soft delete
   await user.update({ status: 'deleted' });
@@ -138,7 +122,7 @@ exports.loginUser = catchAsync(async (req, res, next) => {
     !(await bcrypt.compare(password, user.password))
   ) {
     return next(
-      new AppError(400, 'Credentials are invalid')
+      new AppError(400, user === null ? 'User does not exist' : 'Credentials are invalid')
     );
   }
 

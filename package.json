@@ -9,17 +9,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hooverlds2020/movies-academlo.git"
+    "url": "git+https://github.com/jayad23/secondHandInAc.git"
   },
   "keywords": [
     "app"
   ],
-  "author": "Roberto Hoover",
+  "author": "Jaider Vanegas",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hooverlds2020/movies-academlo/issues"
+    "url": "https://github.com/jayad23/secondHandInAc"
   },
-  "homepage": "https://github.com/hooverlds2020/movies-academlo#readme",
+  "homepage": "https://github.com/jayad23/secondHandInAc#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
