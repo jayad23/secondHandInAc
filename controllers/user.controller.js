@@ -26,11 +26,7 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 });
 
 exports.getUserById = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
-  const user = await User.findOne({
-    where: { id: id, status: 'active' }
-  });
-
+  const user = await req.user.dataValues;
   res.status(200).json({
     status: 'success',
     data: {
@@ -46,7 +42,14 @@ exports.createUser = catchAsync(async (req, res, next) => {
     return next(
       new AppError(
         400,
-        'Must provide a valid username, email, password and role'
+        `Must provide 
+          ${!username ? "an username" : 
+            !email ? "an email" : 
+              !password ? "a password" : 
+                !role ? "a role" : 
+                null
+          }
+        `
       )
     );
   }
@@ -57,7 +60,7 @@ exports.createUser = catchAsync(async (req, res, next) => {
     password,
     salt
   );
-
+ 
   const user = await User.create({
     username: username,
     email: email,
@@ -82,7 +85,7 @@ exports.updateUserPatch = catchAsync(async (req, res, next) => {
     req.body,
     'username',
     'email',
-    'password',
+    'password', 
     'role'    
   ); // { title } | { title, author } | { content }
 
