@@ -1,8 +1,8 @@
 const { ActorInMovie } = require('../models/actorinmovie.model');
 
 // Utils
-const { catchAsync } = require('../utils/catchAsync');
-const { AppError } = require('../utils/appError');
+const { catchAsync } = require('../util/catchAsync');
+const { AppError } = require('../util/appError');
 
 exports.getAllActorInMovie = catchAsync(async (req, res, next) => {
     const actorInMovie = await ActorInMovie.findAll({

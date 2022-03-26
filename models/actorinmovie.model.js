@@ -1,23 +1,15 @@
-const { DataTypes } = require('sequelize')
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../util/database');
 
-//import DB
-const { sequelize } = require('../utils/database')
+const ActorInMovie = sequelize.define('actorInMovie', {
+  id: {
+    primaryKey: true,
+    autoIncrement: true,
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  actorId: { type: DataTypes.INTEGER, allowNull: false },
+  movieId: { type: DataTypes.INTEGER, allowNull: false }
+});
 
-const ActorInMovie = sequelize.define('actorinmovie', {
-    id: {
-        primaryKey: true,
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        allowNull: false
-    },    
-    actorId:{
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    movieId:{
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-})
-
-module.exports = { ActorInMovie }
+module.exports = { ActorInMovie };

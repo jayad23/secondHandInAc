@@ -11,7 +11,7 @@ const { actorinmoviesRouter } = require('./routes/actorinmovie.routes');
 const { actorsRouter } = require('./routes/actor.routes');
 
 // Utils
-const { AppError } = require('./utils/appError');
+const { AppError } = require('./util/appError');
 
 //init server
 const app = express();
