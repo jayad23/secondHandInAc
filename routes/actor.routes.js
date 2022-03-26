@@ -1,5 +1,5 @@
 const express = require('express');
-
+const { body } = require('express-validator');
 // Controllers
 const {
   getAllActors,
@@ -26,7 +26,27 @@ router.use(validateSession);
 router
   .route('/')
   .get(getAllActors)
-  .post(protectAdmin, upload.single('img'), createActor);
+  .post(
+    protectAdmin, 
+    upload.single('img'),
+    [
+      body('name')
+        .isString()
+        .notEmpty(),
+      body('country')
+        .isString()
+        .notEmpty()
+        .withMessage('Must provide a country'),
+      body('rating')
+        .isNumeric()
+        .custom((value)=> value > 0 && value <= 5)
+        .withMessage('rating must be given from 1 up to 5'),
+      body('age')
+        .isNumeric()
+        .custom((age)=> age > 0)
+    ],
+    createActor
+  );
 
 router
   .use('/:id', actorExists)
