@@ -39,6 +39,7 @@ router
         .withMessage('Must provide a country'),
       body('rating')
         .isNumeric()
+        .withMessage('Rating must be a number')
         .custom((value)=> value > 0 && value <= 5)
         .withMessage('rating must be given from 1 up to 5'),
       body('age')

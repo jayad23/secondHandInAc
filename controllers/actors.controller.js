@@ -1,5 +1,5 @@
 const { ref, uploadBytes, getDownloadURL } = require('firebase/storage');
-
+const { validationResult } = require('express-validator');
 // Models
 const { Actor } = require('../models/actor.model');
 const { ActorInMovie } = require('../models/actorInMovie.model');
@@ -31,6 +31,18 @@ exports.getActorById = catchAsync(async (req, res, next) => {
 exports.createActor = catchAsync(async (req, res, next) => {
   const { name, country, rating, age } = req.body;
 
+  // Validate req.body
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    // [msg, msg, msg, msg] -> msg. msg. msg...
+    const errorMsg = errors
+      .array()
+      .map(({ msg }) => msg)
+      .join('. ');
+
+    return next(new AppError(400, errorMsg));
+  }
   // Upload img to firebase
   const fileExtension = req.file.originalname.split('.')[1];
 
